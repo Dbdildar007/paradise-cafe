@@ -1,0 +1,16 @@
+appId: in.paradisecafe.app
+name: Splash -> Welcome page
+tags: [smoke]
+---
+- clearState
+- launchApp:
+    clearState: true
+    permissions: { all: allow }
+- assertVisible: "paradise cafe"
+- assertVisible: "EST. 1984 • HYDERABADI DUM & ROASTS"
+- assertVisible: "100% ROYAL ARTISANAL FEAST"
+- assertVisible: "A NAWABI KITCHENS ENTERPRISE"
+- extendedWaitUntil:          # splash must hand off to the first page automatically
+    visible: "PARADISE CAFE"
+    timeout: 10000
+- takeScreenshot: welcome_as_guest

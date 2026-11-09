@@ -1,0 +1,18 @@
+appId: in.paradisecafe.app
+name: Wrong OTP shows an error and stays on the page
+tags: [auth]
+env:
+  TEST_PHONE: "9876543210"
+---
+- launchApp: { clearState: true }
+- extendedWaitUntil: { visible: "PARADISE CAFE", timeout: 10000 }
+- tapOn: { id: "welcome-signin" }
+- tapOn: { id: "phone-input" }
+- inputText: ${TEST_PHONE}
+- hideKeyboard
+- tapOn: { id: "get-otp-button" }
+- extendedWaitUntil: { visible: { id: "otp-section" }, timeout: 20000 }
+- tapOn: { id: "otp-input" }
+- inputText: "000000"
+- extendedWaitUntil: { visible: "Incorrect OTP. Please check the code and try again.", timeout: 15000 }
+- assertVisible: "PASSCODE VERIFICATION"

@@ -1,0 +1,65 @@
+# Secrets arrive ONLY as environment variables injected by GitHub Actions. Nothing is read from the repo.
+default_platform(:android)
+
+platform :android do
+  desc "Signed release AAB (store) + APK (E2E smoke tests)"
+  lane :build_release do
+    gradle(project_dir: "android", tasks: ["clean"])
+    gradle(project_dir: "android", tasks: ["bundleRelease", "assembleRelease"], properties: { "android.injected.version.code" => ENV.fetch("BUILD_NUMBER", "1") })
+  end
+
+  desc "Firebase App Distribution (internal testers)"
+  lane :firebase do
+    firebase_app_distribution(
+      app: ENV.fetch("FIREBASE_ANDROID_APP_ID"),
+      android_artifact_type: "AAB",
+      android_artifact_path: ENV.fetch("AAB_PATH", "android/app/build/outputs/bundle/release/app-release.aab"),
+      service_credentials_file: ENV.fetch("FIREBASE_CREDENTIALS_FILE"),
+      groups: ENV.fetch("FIREBASE_GROUPS", "internal-testers")
+    )
+  end
+
+  desc "Google Play - internal testing track"
+  lane :play_internal do
+    upload_to_play_store(
+      track: "internal",
+      aab: ENV.fetch("AAB_PATH", "android/app/build/outputs/bundle/release/app-release.aab"),
+      json_key: ENV.fetch("PLAY_JSON_KEY_FILE"),
+      skip_upload_metadata: true, skip_upload_images: true, skip_upload_screenshots: true
+    )
+  end
+end
+
+platform :ios do
+  def asc_key
+    app_store_connect_api_key(
+      key_id: ENV.fetch("ASC_KEY_ID"),
+      issuer_id: ENV.fetch("ASC_ISSUER_ID"),
+      key_filepath: ENV.fetch("ASC_KEY_FILE"),
+      in_house: false
+    )
+  end
+
+  desc "Signed release IPA (cert/profile already installed into a temp keychain by CI)"
+  lane :build_release do
+    increment_build_number(xcodeproj: "ios/ParadiseCafe.xcodeproj", build_number: ENV.fetch("BUILD_NUMBER", "1"))
+    build_app(
+      workspace: "ios/ParadiseCafe.xcworkspace",
+      scheme: "ParadiseCafe",
+      configuration: "Release",
+      export_method: "app-store",
+      output_directory: "ios/build",
+      output_name: "ParadiseCafe.ipa",
+      export_options: { provisioningProfiles: { "in.paradisecafe.app" => ENV.fetch("IOS_PROFILE_NAME") } }
+    )
+  end
+
+  desc "TestFlight"
+  lane :testflight do
+    upload_to_testflight(
+      api_key: asc_key,
+      ipa: ENV.fetch("IPA_PATH", "ios/build/ParadiseCafe.ipa"),
+      skip_waiting_for_build_processing: true
+    )
+  end
+end

@@ -1,0 +1,31 @@
+node_modules/
+coverage/
+.DS_Store
+*.keystore
+*.jks
+*.p12
+*.mobileprovision
+*.env
+.env*
+!.env.example
+android/app/build/
+android/.gradle/
+ios/Pods/
+ios/build/
+*.hbc
+.maestro/results/
+fastlane/report.xml
+
+# native
+android/app/build/
+android/.gradle/
+android/build/
+ios/Pods/
+ios/build/
+*.xcuserstate
+
+# Firebase client config is injected per environment (CI secrets / local copy)
+android/app/google-services.json
+ios/ParadiseCafe/GoogleService-Info.plist
+supabase/.temp/
+supabase/.branches/

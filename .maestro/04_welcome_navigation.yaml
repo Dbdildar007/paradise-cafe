@@ -1,0 +1,29 @@
+appId: in.paradisecafe.app
+name: Welcome page - every button navigates to its page
+tags: [smoke]
+---
+- launchApp: { clearState: true }
+- extendedWaitUntil: { visible: "PARADISE CAFE", timeout: 10000 }
+- assertVisible: "NAWABI HERITAGE DINING"
+- assertVisible: "FIRST-TIME GUEST PRIVILEGES"
+- assertVisible: "₹150 OFF"
+- takeScreenshot: welcome_page
+
+# Sign in with mobile
+- tapOn: { id: "welcome-signin" }
+- assertVisible: "Your cravings, our paradise."
+- runFlow: subflows/go_back.yaml
+
+# Explore menu
+- tapOn: { id: "welcome-explore" }
+- assertVisible: "menu_and_order"
+- runFlow: subflows/go_back.yaml
+
+# Continue as guest
+- tapOn: { id: "welcome-guest" }
+- assertVisible: "browse_locations"
+- runFlow: subflows/go_back.yaml
+
+# Skip -> home (replaces the welcome page)
+- tapOn: { id: "welcome-skip" }
+- assertVisible: "home_screen"

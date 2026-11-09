@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- android/app/src/main/res/xml/network_security_config.xml
+     Cleartext is blocked everywhere; user-installed CAs (Charles/Burp) are NOT trusted in release. -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+    <!-- Native-layer pin as a second line of defence (JS-level pinning is in src/security/sslPinning.ts).
+         Replace the pin digests (SPKI SHA-256, base64) and expiration before release. -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">api.paradisecafe.in</domain>
+        <pin-set expiration="2028-01-01">
+            <pin digest="SHA-256">REPLACE_ME_PRIMARY_SPKI_SHA256_BASE64=</pin>
+            <pin digest="SHA-256">REPLACE_ME_BACKUP_SPKI_SHA256_BASE64=</pin>
+        </pin-set>
+    </domain-config>
+    <!-- Debug builds only: src/debug/res/xml/network_security_config.xml may trust user CAs for local proxying. -->
+</network-security-config>

@@ -1,0 +1,31 @@
+<!-- ios/ParadiseCafe/Info.plist (merge keys) -->
+<key>NSAppTransportSecurity</key>
+<dict>
+  <key>NSAllowsArbitraryLoads</key><false/>
+  <key>NSAllowsLocalNetworking</key><false/>   <!-- Metro uses the Debug-only plist override -->
+  <key>NSPinnedDomains</key>
+  <dict>
+    <key>api.paradisecafe.in</key>
+    <dict>
+      <key>NSIncludesSubdomains</key><true/>
+      <key>NSPinnedLeafIdentities</key>
+      <array>
+        <!-- SPKI-SHA256-BASE64 of the leaf public key; add a backup identity too -->
+        <dict><key>SPKI-SHA256-BASE64</key><string>REPLACE_ME_PRIMARY_SPKI_SHA256_BASE64=</string></dict>
+        <dict><key>SPKI-SHA256-BASE64</key><string>REPLACE_ME_BACKUP_SPKI_SHA256_BASE64=</string></dict>
+      </array>
+    </dict>
+  </dict>
+</dict>
+<key>CFBundleURLTypes</key>
+<array><dict><key>CFBundleURLSchemes</key><array><string>paradisecafe</string></array></dict></array>
+<key>UIViewControllerBasedStatusBarAppearance</key><true/>
+<key>UIRequiresFullScreen</key><false/>   <!-- iPad multitasking / Split View -->
+<key>UISupportedInterfaceOrientations~ipad</key>
+<array>
+  <string>UIInterfaceOrientationPortrait</string><string>UIInterfaceOrientationLandscapeLeft</string>
+  <string>UIInterfaceOrientationLandscapeRight</string><string>UIInterfaceOrientationPortraitUpsideDown</string>
+</array>
+<key>UIAppFonts</key>
+<array><!-- filled automatically by `npx react-native-asset` --></array>
+<key>LSApplicationQueriesSchemes</key><array/>   <!-- jail-monkey: add "cydia" only if you want that URL-scheme check -->

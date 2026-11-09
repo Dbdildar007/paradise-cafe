@@ -1,0 +1,10 @@
+# Security-sensitive paths require review from the security team (replace with real teams).
+*                                   @your-org/mobile-leads
+/src/security/                      @your-org/security-team
+/src/config/security.ts             @your-org/security-team
+/.github/                           @your-org/security-team @your-org/devops
+/fastlane/                          @your-org/devops
+/native-config/                     @your-org/security-team
+/android/app/build.gradle           @your-org/security-team
+/package.json                       @your-org/security-team
+/package-lock.json                  @your-org/security-team

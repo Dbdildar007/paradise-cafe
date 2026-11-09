@@ -1,0 +1,31 @@
+// android/app/build.gradle  (merge into your generated project)
+android {
+    defaultConfig {
+        // Enforce modern OS security baseline
+        minSdkVersion 24
+    }
+
+    signingConfigs {
+        release {
+            // Injected by CI from encrypted secrets. Nothing is committed.
+            storeFile file(System.getenv("ANDROID_KEYSTORE_PATH") ?: "release.keystore")
+            storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+            keyAlias System.getenv("ANDROID_KEY_ALIAS")
+            keyPassword System.getenv("ANDROID_KEY_PASSWORD")
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true            // R8 obfuscation + shrinking
+            shrinkResources true
+            debuggable false
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+    }
+}
+// android/gradle.properties
+//   hermesEnabled=true                 -> JS compiled to Hermes bytecode (.hbc) at build time
+//   newArchEnabled=true
+//   android.enableR8.fullMode=true

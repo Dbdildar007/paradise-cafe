@@ -1,0 +1,2 @@
+package_name("in.paradisecafe.app")
+app_identifier("in.paradisecafe.app")

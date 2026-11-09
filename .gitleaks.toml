@@ -1,0 +1,9 @@
+title = "paradise-cafe gitleaks"
+[extend]
+useDefault = true
+[[rules]]
+id = "android-keystore-or-p12"
+description = "Signing material"
+path = '''(?i)\.(jks|keystore|p12|mobileprovision|p8)$'''
+[allowlist]
+paths = ['''package-lock\.json''', '''docs/DESIGN\.md''']

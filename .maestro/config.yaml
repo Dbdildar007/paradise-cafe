@@ -1,0 +1,5 @@
+# Maestro workspace config. Run: maestro test .maestro/   |  CI smoke: maestro test .maestro --include-tags=smoke
+flows:
+  - "*.yaml"
+includeTags: []
+excludeTags: []

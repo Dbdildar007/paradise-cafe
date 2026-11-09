@@ -1,0 +1,21 @@
+# TEMPLATE - runnable once menu / cart / checkout screens exist.
+# Required testIDs: restaurant-card-0, menu-item-0, add-to-cart, modifier-option-<n>, modifier-confirm,
+# cart-bar, quantity-plus, place-order, order-success.
+appId: in.paradisecafe.app
+name: Add item with modifiers -> cart -> simulated checkout
+tags: [checkout, release]
+---
+- launchApp
+- tapOn: { id: "restaurant-card-0" }
+- tapOn: { id: "menu-item-0" }
+- assertVisible: "Customise"
+- tapOn: { id: "modifier-option-0" }          # e.g. "Extra raita"
+- tapOn: { id: "modifier-option-2" }          # e.g. "Spicy level: High"
+- tapOn: { id: "modifier-confirm" }
+- assertVisible: { id: "cart-bar" }
+- tapOn: { id: "cart-bar" }
+- tapOn: { id: "quantity-plus" }
+- assertVisible: "2"
+- tapOn: { id: "place-order" }                # sandbox gateway only
+- extendedWaitUntil: { visible: { id: "order-success" }, timeout: 20000 }
+- takeScreenshot: order_success

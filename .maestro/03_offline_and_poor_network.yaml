@@ -1,0 +1,17 @@
+appId: in.paradisecafe.app
+name: Offline / poor network behaviour
+tags: [smoke, network]
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil: { visible: "PARADISE CAFE", timeout: 10000 }
+- setAirplaneMode: enabled            # Android emulator; on iOS use a network-link-conditioner profile in CI
+- extendedWaitUntil: { visible: "No internet connection", timeout: 8000 }
+- assertVisible: "Try again"
+- assertVisible: "Open settings"
+- tapOn: "Try again"                  # still offline -> overlay must remain, no crash
+- assertVisible: "No internet connection"
+- setAirplaneMode: disabled
+- extendedWaitUntil: { notVisible: "No internet connection", timeout: 15000 }
+- assertVisible: "PARADISE CAFE"   # state preserved under the overlay
+- takeScreenshot: recovered_online

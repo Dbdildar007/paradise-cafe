@@ -1,0 +1,32 @@
+# Mobile OTP login against Firebase TEST phone numbers (Firebase console > Authentication > Sign-in method > Phone >
+# "Phone numbers for testing": add 9876543210 -> 123456). No real SMS is sent. Run:
+#   maestro test -e TEST_PHONE=9876543210 -e TEST_OTP=123456 .maestro/01_mobile_otp_login.yaml
+appId: in.paradisecafe.app
+name: Mobile OTP login (new or returning user) -> Home
+tags: [auth]
+env:
+  TEST_PHONE: "9876543210"
+  TEST_OTP: "123456"
+---
+- launchApp: { clearState: true }
+- extendedWaitUntil: { visible: "PARADISE CAFE", timeout: 10000 }
+- tapOn: { id: "welcome-signin" }
+- assertVisible: "Your cravings, our paradise."
+- assertNotVisible: { id: "otp-section" }            # OTP boxes stay hidden until an OTP is requested
+- runFlow:
+    when: { platform: Android }
+    commands:
+      - tapOn: { id: "phone-input" }
+      - runFlow:                                     # dismiss Google's phone-number sheet if it appears
+          when: { visible: "Continue with a phone number" }
+          commands: [ back ]
+- tapOn: { id: "phone-input" }
+- inputText: ${TEST_PHONE}
+- hideKeyboard
+- tapOn: { id: "get-otp-button" }
+- extendedWaitUntil: { visible: { id: "otp-section" }, timeout: 20000 }
+- assertVisible: "PASSCODE VERIFICATION"
+- assertVisible: { id: "resend-timer" }              # 60 s countdown is running
+- tapOn: { id: "otp-input" }
+- inputText: ${TEST_OTP}
+- extendedWaitUntil: { visible: "home_screen", timeout: 20000 }
