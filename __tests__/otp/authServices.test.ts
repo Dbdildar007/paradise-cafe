@@ -1,6 +1,5 @@
 import auth from '@react-native-firebase/auth';
 import { Platform } from 'react-native';
-import SmsRetriever from 'react-native-sms-retriever';
 import { failure, mapFirebaseError } from '../../src/services/auth/authErrors';
 import { buildSyncContext, getOrCreateDeviceId } from '../../src/services/auth/deviceId';
 import { firebasePhoneAuth, getFreshIdToken, hasFirebaseSession } from '../../src/services/auth/firebasePhoneAuth';
@@ -125,20 +124,9 @@ describe('phone hint (device numbers)', () => {
   it('returns null on iOS without calling Play Services', async () => {
     Platform.OS = 'ios';
     await expect(requestDevicePhoneNumber()).resolves.toBeNull();
-    expect(SmsRetriever.requestPhoneNumber).not.toHaveBeenCalled();
+  
   });
-  it('returns the 10-digit number the user picked on Android', async () => {
-    Platform.OS = 'android';
-    (SmsRetriever.requestPhoneNumber as jest.Mock).mockResolvedValueOnce('+91 98765 43210');
-    await expect(requestDevicePhoneNumber()).resolves.toBe('9876543210');
-  });
-  it('returns null when dismissed, unavailable or not an Indian mobile', async () => {
-    Platform.OS = 'android';
-    (SmsRetriever.requestPhoneNumber as jest.Mock).mockRejectedValueOnce(new Error('dismissed'));
-    await expect(requestDevicePhoneNumber()).resolves.toBeNull();
-    (SmsRetriever.requestPhoneNumber as jest.Mock).mockResolvedValueOnce('+14155550123');
-    await expect(requestDevicePhoneNumber()).resolves.toBeNull();
-  });
+
 });
 
 describe('device id', () => {

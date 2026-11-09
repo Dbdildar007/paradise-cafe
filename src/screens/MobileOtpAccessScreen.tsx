@@ -79,8 +79,6 @@ export const MobileOtpAccessScreen: React.FC<Props> = ({ navigation, deps = defa
         phoneRef.current?.focus(); // dismissed by user
       }
     } catch (error) {
-      // Catch native/emulator resolution crashes and fallback smoothly to manual typing
-      console.warn('Phone hint not supported or failed (expected on emulators):', error);
       setPhoneFocused(true);
       phoneRef.current?.focus();
     }

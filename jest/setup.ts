@@ -91,12 +91,19 @@ jest.mock('@react-native-firebase/auth', () => {
   return { __esModule: true, default: authFn };
 });
 
-jest.mock('react-native-sms-retriever', () => ({
-  __esModule: true,
-  default: {
-    requestPhoneNumber: jest.fn().mockResolvedValue('+919876543210'),
-    startSmsRetriever: jest.fn().mockResolvedValue(true),
-    addSmsListener: jest.fn().mockResolvedValue(true),
-    removeSmsListener: jest.fn(),
-  },
-}));
+// Replace this old mock:
+// jest.mock('react-native-sms-retriever', () => ({ ... }));
+
+// With this mock for your new native module:
+jest.mock('react-native', () => {
+  const RN = jest.requireActual('react-native');
+  
+  // Safely inject PhoneHintModule without wiping out NativeModules or SettingsManager
+  if (RN.NativeModules && !RN.NativeModules.PhoneHintModule) {
+    RN.NativeModules.PhoneHintModule = {
+      requestPhoneNumber: jest.fn().mockResolvedValue('+919876543210'),
+    };
+  }
+
+  return RN;
+});

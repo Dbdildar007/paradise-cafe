@@ -51,7 +51,7 @@ describe('navigation flow', () => {
   it.each([
     ['welcome-explore', 'menu_and_order'],
     ['welcome-guest', 'browse_locations'],
-    ['welcome-skip', 'home_screen'],
+    ['welcome-skip', 'home screen'],
   ])('welcome %s -> %s', async (buttonId, pageName) => {
     jest.spyOn(bootstrap, 'bootstrapApp').mockResolvedValue({ status: 'ready', hasSession: false });
     const { findByText, findByTestId, getByTestId } = renderApp();
@@ -65,7 +65,7 @@ describe('navigation flow', () => {
     jest.spyOn(bootstrap, 'bootstrapApp').mockResolvedValue({ status: 'ready', hasSession: true });
     const { findByText } = renderApp();
     await finishSplash();
-    expect(await findByText('home_screen')).toBeTruthy();
+    expect(await findByText('home screen')).toBeTruthy();
   });
 
   it('compromised device: splash -> security blocked', async () => {
