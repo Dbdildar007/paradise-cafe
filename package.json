@@ -39,6 +39,11 @@
     "react-native-ssl-public-key-pinning": "^1.2.5",
     "react-native-svg": "15.9.0"
   },
+  "overrides": {
+    "image-size": "^2.1.0",
+    "nanoid": "^3.3.8",
+    "@grpc/grpc-js": "^1.12.2"
+  },
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
