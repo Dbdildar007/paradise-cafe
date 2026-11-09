@@ -97,7 +97,7 @@ jest.mock('@react-native-firebase/auth', () => {
 // With this mock for your new native module:
 jest.mock('react-native', () => {
   const RN = jest.requireActual('react-native');
-  
+
   // Safely inject PhoneHintModule without wiping out NativeModules or SettingsManager
   if (RN.NativeModules && !RN.NativeModules.PhoneHintModule) {
     RN.NativeModules.PhoneHintModule = {

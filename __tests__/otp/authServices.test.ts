@@ -124,7 +124,7 @@ describe('phone hint (device numbers)', () => {
   it('returns null on iOS without calling Play Services', async () => {
     Platform.OS = 'ios';
     await expect(requestDevicePhoneNumber()).resolves.toBeNull();
-  
+
   });
 
 });
