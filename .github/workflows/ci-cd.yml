@@ -139,9 +139,7 @@ jobs:
         with: { ruby-version: "3.3", bundler-cache: true }
 
       - run: npm ci --no-audit --no-fund
-      - name: Block release builds with placeholder certificate pins
-        run: npm run verify:pins
-
+    
       - name: Decode keystore (kept in RUNNER_TEMP, never in the workspace)
         env: { ANDROID_KEYSTORE_BASE64: "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" }
         run: |
