@@ -18,9 +18,10 @@
     "verify:hermes": "bash scripts/verify-hermes-bytecode.sh",
     "e2e:android": "maestro test .maestro/",
     "e2e:ios": "maestro --platform ios test .maestro/",
-    "postinstall": "node scripts/postinstall-check.js",
+    "postinstall": "node scripts/postinstall-check.js && patch-package",
     "test:backend": "deno test --config supabase/functions/deno.json supabase/functions && python3 supabase/tests/run_local_db_tests.py",
     "check:imports": "node scripts/check-imports.js"
+    
   },
   "dependencies": {
     "@react-native-community/blur": "^4.4.1",
@@ -62,6 +63,7 @@
     "babel-plugin-transform-remove-console": "^6.9.4",
     "eslint": "^8.19.0",
     "jest": "^29.6.3",
+    "patch-package": "^8.0.1",
     "prettier": "2.8.8",
     "react-test-renderer": "18.3.1",
     "typescript": "5.0.4"
