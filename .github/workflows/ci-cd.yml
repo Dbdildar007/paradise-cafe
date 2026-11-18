@@ -141,11 +141,11 @@ jobs:
       - run: npm ci --no-audit --no-fund
     
       - name: Decode keystore (kept in RUNNER_TEMP, never in the workspace)
-        env: { ANDROID_KEYSTORE_BASE64: "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" }
+        env:
+          RELEASE_KEYSTORE_BASE64: "${{ secrets.RELEASE_KEYSTORE_BASE64 }}"
         run: |
           umask 077
-          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/release.keystore"
-          echo "ANDROID_KEYSTORE_PATH=$RUNNER_TEMP/release.keystore" >> "$GITHUB_ENV"
+          echo "$RELEASE_KEYSTORE_BASE64" | base64 --decode > android/app/release.keystore
 
       - name: Inject Firebase config (google-services.json is not stored in git)
         env: { GOOGLE_SERVICES_JSON_BASE64: "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" }
